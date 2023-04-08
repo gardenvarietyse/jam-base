@@ -20,9 +20,9 @@ export type LDTKComponents = {
     stage: Container;
 
     level: string;
-    change_neighbour: LDTKDir | undefined;
+    change_neighbour?: LDTKDir | undefined;
 
-    force_level_load: boolean;
+    force_level_load?: boolean;
 
     onLevelLoaded?: OnLevelLoadedFn;
     onLevelUnload?: OnLevelUnloadFn;
