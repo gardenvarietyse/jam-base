@@ -18,6 +18,7 @@ import { createLDTKSystem } from './system/ldtk/ldtk';
 import { Asset } from '../../asset';
 import { createBlompSystem, make_body } from './system/blomp/blomp';
 import { World as BlompWorld } from '../lib/blomp';
+import { spawnEntity } from './spawn';
 
 export class Game implements IGame {
   private pixi_app: Application;
@@ -89,6 +90,25 @@ export class Game implements IGame {
         on_loaded: (level) => {
           // @ts-ignore
           this.pixi_app.renderer.background.color = level.bgColor;
+
+          const entities = level.entityLayers.find(
+            (el) => el.__identifier === 'Entities'
+          );
+
+          entities?.entityInstances.forEach((ei) => {
+            const entity = spawnEntity(entity_world, ei);
+
+            if (!entity) {
+              return;
+            }
+
+            // todo: persist player somehow
+            entity_world.addComponent(entity, 'ldtk_entity', {
+              iid: ei.iid,
+              identifier: ei.__identifier,
+              level: level.identifier,
+            });
+          });
         },
       },
     });
@@ -106,16 +126,6 @@ export class Game implements IGame {
       label: {
         text: `${entity_world.entities.length} entities`,
       },
-    });
-
-    this.player = entity_world.add({
-      x: 16 * 7,
-      y: 128,
-      sprite: {
-        json_asset: Asset.sprite.character.shade,
-      },
-      body: make_body(16, 16),
-      character_animator: true,
     });
   }
 
@@ -139,8 +149,7 @@ export class Game implements IGame {
     });
 
     if (this.debugLabel?.label) {
-      // this.debugLabel.label.text = `${this.world.entities.length} entities`;
-      this.debugLabel.label.text = `${this.player.x}, ${this.player.y}`;
+      this.debugLabel.label.text = `${this.world.entities.length} entities`;
     }
   }
 }
