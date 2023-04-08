@@ -34,9 +34,22 @@ export const createTilemapBodies = (
         body: {
           width: layer.tileset.tileGridSize,
           height: layer.tileset.tileGridSize,
+          velocity_x: 0,
+          velocity_y: 0,
+
           static: true,
           platform,
           groups: ['static'],
+          ignore_groups: [],
+
+          can_push: false,
+          pushable: false,
+
+          grounded: false,
+
+          ghost: false,
+          trigger: false,
+          ignore_gravity: false,
         },
         ldtk_entity: {
           iid: 'tile',

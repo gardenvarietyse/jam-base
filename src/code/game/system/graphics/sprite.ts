@@ -63,8 +63,6 @@ export const createSpriteSystem = (
 
         const instance = new Sprite(texture);
         instance.roundPixels = true;
-        instance.anchor.x = 0.5;
-        instance.anchor.y = 1;
 
         instance.position.x = x;
         instance.position.y = y;
@@ -85,8 +83,6 @@ export const createSpriteSystem = (
 
         instance.position.x = x;
         instance.position.y = y;
-
-        instance.anchor_y = 1;
 
         instance.scale.x = flip_x ? -1 : 1;
         instance.zIndex = z_index ?? instance.zIndex;

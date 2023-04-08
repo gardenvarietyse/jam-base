@@ -13,15 +13,9 @@ export const createCharacterAnimatorSystem = (
 
   return (delta: number) => {
     for (const entity of active) {
-      const { x, sprite, pathing, task_agent } = entity;
+      const { x, sprite, pathing } = entity;
 
       sprite.animation = pathing ? 'walk' : 'idle';
-      if (task_agent?.tasks[0]?.state === 'active') {
-        sprite.animation = 'work';
-        const tx = task_agent.tasks[0]?.target?.x ?? x;
-
-        sprite.flip_x = tx < x;
-      }
 
       if (pathing?.path && pathing.path.length > 0) {
         const next_node = pathing.path[0];

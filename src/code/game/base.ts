@@ -43,9 +43,10 @@ export class Base {
       const delta = (timestamp - lastTimestamp) / 1000;
       lastTimestamp = timestamp;
 
-      this.run_systems(delta);
-      this.game.update(delta);
-
+      if (delta <= 0.05) {
+        this.run_systems(delta);
+        this.game.update(delta);
+      }
       window.requestAnimationFrame(tick);
     };
 

@@ -8,6 +8,7 @@ import { HealthComponents } from './health';
 import { LabelComponents } from './graphics/label';
 import { UtilComponents } from './util';
 import { LDTKComponents } from './ldtk/ldtk';
+import { BlompComponents } from './blomp/blomp';
 
 export type GameEntity = {
   name?: string;
@@ -20,6 +21,7 @@ export type GameEntity = {
   SpriteComponents &
   CharacterAnimatorComponents &
   PathFollowerComponents &
+  BlompComponents &
   // graphics
   LabelComponents &
   TilemapComponents &

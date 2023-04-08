@@ -15,6 +15,9 @@ import { createUtilSystem } from './system/util';
 import { SETTINGS } from './settings';
 import { WORLD } from '../../asset/world';
 import { createLDTKSystem } from './system/ldtk/ldtk';
+import { Asset } from '../../asset';
+import { createBlompSystem, make_body } from './system/blomp/blomp';
+import { World as BlompWorld } from '../lib/blomp';
 
 export class Game implements IGame {
   private pixi_app: Application;
@@ -24,7 +27,10 @@ export class Game implements IGame {
 
   private game_entity: GameEntity;
   private game_world: GameEntity;
+  private blomp_world: BlompWorld;
   private debugLabel: GameEntity;
+
+  private player: GameEntity;
 
   create_systems(
     pixi_app: Application,
@@ -32,6 +38,8 @@ export class Game implements IGame {
   ): SystemRunFn[] {
     this.pixi_app = pixi_app;
     this.world = world;
+
+    this.blomp_world = new BlompWorld();
 
     return [
       createUtilSystem(world, pixi_app.renderer),
@@ -44,7 +52,8 @@ export class Game implements IGame {
       createHealthSystem(world),
       createCharacterAnimatorSystem(world),
       createPathFollowerSystem(world),
-      // game logic
+      // game logic etc
+      createBlompSystem(world, this.blomp_world),
       createGridManagerSystem(world),
       // ui, input
       createKeyboardSystem(world),
@@ -84,7 +93,9 @@ export class Game implements IGame {
       },
     });
 
+    // @ts-ignore
     this.pixi_app.stage.eventMode = 'dynamic';
+    // @ts-ignore
     this.pixi_app.stage.onpointertap = (e) => {
       const { globalX, globalY } = e;
     };
@@ -95,6 +106,15 @@ export class Game implements IGame {
       label: {
         text: `${entity_world.entities.length} entities`,
       },
+    });
+
+    this.player = entity_world.add({
+      x: 16 * 7,
+      y: 128,
+      sprite: {
+        json_asset: Asset.sprite.character.shade,
+      },
+      body: make_body(16, 16),
     });
   }
 
@@ -118,7 +138,8 @@ export class Game implements IGame {
     });
 
     if (this.debugLabel?.label) {
-      this.debugLabel.label.text = `${this.world.entities.length} entities`;
+      // this.debugLabel.label.text = `${this.world.entities.length} entities`;
+      this.debugLabel.label.text = `${this.player.x}, ${this.player.y}`;
     }
   }
 }
