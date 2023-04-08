@@ -1,0 +1,6 @@
+export const SETTINGS = {
+  TILE_WIDTH: 16,
+  TILE_HEIGHT: 16,
+  MAP_WIDTH: 32,
+  MAP_HEIGHT: 32,
+};

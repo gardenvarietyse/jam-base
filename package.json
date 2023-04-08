@@ -1,0 +1,20 @@
+{
+  "name": "jam-base",
+  "author": "steve <steve@gardenvariety.se>",
+  "version": "1.0.0",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "scripts": {
+    "start": "parcel --no-cache src/static/index.html",
+    "assets": "node ./tools/generate_assets.js"
+  },
+  "devDependencies": {
+    "parcel": "^2.8.3",
+    "punycode": "^1.4.1",
+    "querystring-es3": "^0.2.1",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "miniplex": "^2.0.0-beta.3",
+    "pixi.js": "^7.2.0-beta"
+  }
+}

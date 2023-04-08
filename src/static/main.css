@@ -1,0 +1,17 @@
+body {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #000;
+}
+
+canvas {
+  display: block;
+  align-self: center;
+  margin-top: 1vh;
+  height: 98vh;
+  cursor: none;
+}
