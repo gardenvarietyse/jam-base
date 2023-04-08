@@ -77,6 +77,10 @@ export class Game implements IGame {
         data: WORLD,
         stage: this.pixi_app.stage,
         level: 'Level_0',
+        on_loaded: (level) => {
+          // @ts-ignore
+          this.pixi_app.renderer.background.color = level.bgColor;
+        },
       },
     });
 

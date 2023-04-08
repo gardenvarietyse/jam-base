@@ -24,8 +24,8 @@ export type LDTKComponents = {
 
     force_level_load?: boolean;
 
-    onLevelLoaded?: OnLevelLoadedFn;
-    onLevelUnload?: OnLevelUnloadFn;
+    on_loaded?: OnLevelLoadedFn;
+    on_unload?: OnLevelUnloadFn;
   };
   ldtk_world_state?: {
     manager: PixiLDTK;
@@ -74,7 +74,7 @@ export const createLDTKSystem = (
         key: TilemapKey
       ) => {
         createTilemapBodies(level, entity_world);
-        ldtk_world.onLevelLoaded?.(level, firstLoad, key);
+        ldtk_world.on_loaded?.(level, firstLoad, key);
       };
 
       const onLevelUnload = (level: LDTKLevel) => {
@@ -90,7 +90,7 @@ export const createLDTKSystem = (
           ldtk_world_state.entities_by_level[level.identifier] = [];
         }
 
-        ldtk_world.onLevelUnload?.(level);
+        ldtk_world.on_unload?.(level);
       };
 
       const manager = new PixiLDTK({
