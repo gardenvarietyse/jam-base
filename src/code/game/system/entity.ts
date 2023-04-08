@@ -9,6 +9,7 @@ import { LabelComponents } from './graphics/label';
 import { UtilComponents } from './util';
 import { LDTKComponents } from './ldtk/ldtk';
 import { BlompComponents } from './blomp/blomp';
+import { CharacerControllerComponents } from './character/controller';
 
 export type GameEntity = {
   name?: string;
@@ -22,6 +23,7 @@ export type GameEntity = {
   CharacterAnimatorComponents &
   PathFollowerComponents &
   BlompComponents &
+  CharacerControllerComponents &
   // graphics
   LabelComponents &
   TilemapComponents &

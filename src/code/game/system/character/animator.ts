@@ -20,6 +20,10 @@ export const createCharacterAnimatorSystem = (
       } else {
         sprite.animation = body.velocity_y < 0 ? 'jump' : 'fall';
       }
+
+      if (Math.abs(body.velocity_x) > 0.25) {
+        sprite.flip_x = body.velocity_x < 0;
+      }
     }
   };
 };

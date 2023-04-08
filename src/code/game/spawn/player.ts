@@ -10,8 +10,6 @@ export const spawnPlayer = (
 ) => {
   const [x, y] = definition.px;
 
-  console.log(definition);
-
   const entity = world.add({
     x,
     y,

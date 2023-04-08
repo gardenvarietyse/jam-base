@@ -19,6 +19,7 @@ import { Asset } from '../../asset';
 import { createBlompSystem, make_body } from './system/blomp/blomp';
 import { World as BlompWorld } from '../lib/blomp';
 import { spawnEntity } from './spawn';
+import { createCharacterControllerSystem } from './system/character/controller';
 
 export class Game implements IGame {
   private pixi_app: Application;
@@ -53,6 +54,7 @@ export class Game implements IGame {
       createHealthSystem(world),
       createCharacterAnimatorSystem(world),
       createPathFollowerSystem(world),
+      createCharacterControllerSystem(world),
       // game logic etc
       createBlompSystem(world, this.blomp_world),
       createGridManagerSystem(world),
@@ -121,7 +123,7 @@ export class Game implements IGame {
     };
 
     this.debugLabel = entity_world.add({
-      x: 16,
+      x: 32,
       y: 16,
       label: {
         text: `${entity_world.entities.length} entities`,
