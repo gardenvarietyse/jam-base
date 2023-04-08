@@ -10,6 +10,7 @@ import { UtilComponents } from './util';
 import { LDTKComponents } from './ldtk/ldtk';
 import { BlompComponents } from './blomp/blomp';
 import { CharacerControllerComponents } from './character/controller';
+import { KeyboardControllerComponents } from './character/keyboard';
 
 export type GameEntity = {
   name?: string;
@@ -31,5 +32,6 @@ export type GameEntity = {
   LDTKComponents &
   // input
   KeyboardComponents &
+  KeyboardControllerComponents &
   // general game systems
   GridComponents;

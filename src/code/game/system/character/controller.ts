@@ -11,10 +11,7 @@ export const make_controller = (): ControllerComponent => ({
   left: false,
   right: false,
 
-  use: false,
   jump: false,
-  attack: false,
-  cancel: false,
 
   move_speed: 64,
   jump_speed: 128,
@@ -28,10 +25,7 @@ type ControllerComponent = {
   left: boolean;
   right: boolean;
 
-  use: boolean;
   jump: boolean;
-  attack: boolean;
-  cancel: boolean;
 
   move_speed: number;
   jump_speed: number;

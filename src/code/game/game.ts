@@ -20,6 +20,7 @@ import { createBlompSystem, make_body } from './system/blomp/blomp';
 import { World as BlompWorld } from '../lib/blomp';
 import { spawnEntity } from './spawn';
 import { createCharacterControllerSystem } from './system/character/controller';
+import { createKeyboardControllerSystem } from './system/character/keyboard';
 
 export class Game implements IGame {
   private pixi_app: Application;
@@ -36,30 +37,31 @@ export class Game implements IGame {
 
   create_systems(
     pixi_app: Application,
-    world: World<GameEntity>
+    entity_world: World<GameEntity>
   ): SystemRunFn[] {
     this.pixi_app = pixi_app;
-    this.world = world;
+    this.world = entity_world;
 
     this.blomp_world = new BlompWorld();
 
     return [
-      createUtilSystem(world, pixi_app.renderer),
+      createUtilSystem(entity_world, pixi_app.renderer),
       // graphics
-      createSpriteSystem(world, pixi_app.stage),
-      createLabelSystem(world, pixi_app.stage),
-      createTilemapSystem(world, pixi_app.stage),
-      createLDTKSystem(world, pixi_app.stage),
+      createSpriteSystem(entity_world, pixi_app.stage),
+      createLabelSystem(entity_world, pixi_app.stage),
+      createTilemapSystem(entity_world, pixi_app.stage),
+      createLDTKSystem(entity_world, pixi_app.stage),
       // characters
-      createHealthSystem(world),
-      createCharacterAnimatorSystem(world),
-      createPathFollowerSystem(world),
-      createCharacterControllerSystem(world),
+      createHealthSystem(entity_world),
+      createCharacterAnimatorSystem(entity_world),
+      createPathFollowerSystem(entity_world),
+      createCharacterControllerSystem(entity_world),
       // game logic etc
-      createBlompSystem(world, this.blomp_world),
-      createGridManagerSystem(world),
+      createBlompSystem(entity_world, this.blomp_world),
+      createGridManagerSystem(entity_world),
       // ui, input
-      createKeyboardSystem(world),
+      createKeyboardSystem(entity_world),
+      createKeyboardControllerSystem(entity_world),
     ];
   }
 
