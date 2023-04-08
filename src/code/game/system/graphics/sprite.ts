@@ -14,8 +14,6 @@ export type SpriteComponents = {
     flip_x?: boolean;
     z_index?: number;
 
-    on_click?: (button: number, entity: GameEntity) => void;
-
     shake?: number;
   };
   sprite_state?: {
@@ -47,8 +45,7 @@ export const createSpriteSystem = (
   return (delta: number) => {
     for (const entity of added) {
       const { x, y } = entity;
-      const { asset, json_asset, animation, z_index, flip_x, on_click } =
-        entity.sprite;
+      const { asset, json_asset, animation, z_index, flip_x } = entity.sprite;
 
       if (asset && json_asset) {
         world.removeComponent(entity, 'sprite');
@@ -68,11 +65,6 @@ export const createSpriteSystem = (
         instance.position.y = y;
         instance.zIndex = z_index ?? instance.zIndex;
 
-        if (on_click) {
-          instance.onpointertap = (e) => on_click?.(e.button, entity);
-          instance.eventMode = 'dynamic';
-        }
-
         stage.addChild(instance);
         world.addComponent(entity, 'sprite_state', {
           instance,
@@ -86,11 +78,6 @@ export const createSpriteSystem = (
 
         instance.scale.x = flip_x ? -1 : 1;
         instance.zIndex = z_index ?? instance.zIndex;
-
-        if (on_click) {
-          instance.onpointertap = (e) => on_click?.(e.button, entity);
-          instance.eventMode = 'dynamic';
-        }
 
         if (animation) {
           instance.setAnimation(animation);
