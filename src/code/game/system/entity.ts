@@ -4,14 +4,10 @@ import { PathFollowerComponents } from './character/path_follower';
 import { SpriteComponents } from './graphics/sprite';
 import { TilemapComponents } from './graphics/tilemap';
 import { GridComponents } from './grid/grid';
-import { SelectionComponents } from './ui/selection';
-import { TaskManagerComponents } from './task/task_manager';
 import { HealthComponents } from './health';
 import { LabelComponents } from './graphics/label';
 import { UtilComponents } from './util';
-import { ConstructionComponents } from './ui/construction';
-import { ResourceComponents } from './item/resource';
-import { InventoryComponents } from './character/inventory';
+import { LDTKComponents } from './ldtk/ldtk';
 
 export type GameEntity = {
   name?: string;
@@ -24,16 +20,12 @@ export type GameEntity = {
   SpriteComponents &
   CharacterAnimatorComponents &
   PathFollowerComponents &
-  ResourceComponents &
-  InventoryComponents &
   // graphics
   LabelComponents &
   TilemapComponents &
+  // ldtk
+  LDTKComponents &
   // input
   KeyboardComponents &
-  // ui
-  SelectionComponents &
-  ConstructionComponents &
   // general game systems
-  GridComponents &
-  TaskManagerComponents;
+  GridComponents;

@@ -2,9 +2,8 @@ import { World } from 'miniplex';
 import { IGame } from './base';
 import { GameEntity } from './system/entity';
 import { SystemRunFn } from './system';
-import { Application, DisplayObject, Graphics } from 'pixi.js';
+import { Application } from 'pixi.js';
 import { createSpriteSystem } from './system/graphics/sprite';
-import { Asset } from '../../asset';
 import { createTilemapSystem } from './system/graphics/tilemap';
 import { createPathFollowerSystem } from './system/character/path_follower';
 import { createCharacterAnimatorSystem } from './system/character/animator';
@@ -13,10 +12,9 @@ import { createKeyboardSystem } from './system/input/keyboard';
 import { createHealthSystem } from './system/health';
 import { createLabelSystem } from './system/graphics/label';
 import { createUtilSystem } from './system/util';
-import { spawnRunnerLabel } from './system/factory/spawnRunnerLabel';
 import { SETTINGS } from './settings';
-import { TilemapDataSource } from '../lib/tilemap/data_source';
-import { nrandom } from '../lib/math';
+import { WORLD } from '../../asset/world';
+import { createLDTKSystem } from './system/ldtk/ldtk';
 
 export class Game implements IGame {
   private pixi_app: Application;
@@ -25,11 +23,8 @@ export class Game implements IGame {
   private elapsed = 0;
 
   private game_entity: GameEntity;
+  private game_world: GameEntity;
   private debugLabel: GameEntity;
-
-  private selected_entities: GameEntity[] = [];
-
-  private tilemap_data: TilemapDataSource;
 
   create_systems(
     pixi_app: Application,
@@ -44,6 +39,7 @@ export class Game implements IGame {
       createSpriteSystem(world, pixi_app.stage),
       createLabelSystem(world, pixi_app.stage),
       createTilemapSystem(world, pixi_app.stage),
+      createLDTKSystem(world, pixi_app.stage),
       // characters
       createHealthSystem(world),
       createCharacterAnimatorSystem(world),
@@ -55,8 +51,8 @@ export class Game implements IGame {
     ];
   }
 
-  startup(world: World<GameEntity>) {
-    world.add({
+  startup(entity_world: World<GameEntity>) {
+    entity_world.add({
       x: 0,
       y: 0,
       keyboard: {
@@ -65,36 +61,23 @@ export class Game implements IGame {
       },
     });
 
-    this.tilemap_data = new TilemapDataSource(
-      SETTINGS.MAP_WIDTH,
-      SETTINGS.MAP_HEIGHT,
-      Array(SETTINGS.MAP_WIDTH * SETTINGS.MAP_HEIGHT)
-        .fill(0)
-        .map((t, i) => {
-          const rock = Math.random() < 1 / 100;
-
-          return rock ? 3 : Math.random() < 0.2 ? 0 : 1;
-        })
-    );
-
-    this.game_entity = world.add({
+    this.game_entity = entity_world.add({
       x: 0,
       y: 0,
-      tilemap: {
-        asset: Asset.tiles,
-        tile_width: SETTINGS.TILE_WIDTH,
-        tile_height: SETTINGS.TILE_HEIGHT,
-        map_width: SETTINGS.MAP_WIDTH,
-        map_height: SETTINGS.MAP_HEIGHT,
-        done: () => {},
-      },
-      tile_source: this.tilemap_data,
       grid_manager: {
         width: SETTINGS.MAP_WIDTH,
         height: SETTINGS.MAP_HEIGHT,
       },
-      task_manager: {},
-      construction: { active: false },
+    });
+
+    this.game_world = entity_world.add({
+      x: 0,
+      y: 0,
+      ldtk_world: {
+        data: WORLD,
+        stage: this.pixi_app.stage,
+        level: 'Level_0',
+      },
     });
 
     this.pixi_app.stage.eventMode = 'dynamic';
@@ -102,11 +85,11 @@ export class Game implements IGame {
       const { globalX, globalY } = e;
     };
 
-    this.debugLabel = world.add({
+    this.debugLabel = entity_world.add({
       x: 16,
       y: 16,
       label: {
-        text: `${world.entities.length} entities`,
+        text: `${entity_world.entities.length} entities`,
       },
     });
   }

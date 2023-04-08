@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "outDir": "./lib/",
+      "target": "es6",
+      "sourceMap": true,
+      "allowJs": true,
+      "experimentalDecorators": true,
+      "lib": [
+          "es2017",
+          "dom"
+      ],
+      "typeRoots": [
+          "node_modules/@types"
+      ]
+  },
+  "include": [
+      "src/**/*.ts",
+      "node_modules/@types"
+  ],
+  "exclude": [
+      ".git",
+      "node_modules"
+  ]
+}
