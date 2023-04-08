@@ -160,6 +160,7 @@ export class PixiLDTK extends Container {
           tilemap.y = level.worldY;
           tilemap.zIndex = ZIndexForLayer[layer.__identifier] || 0;
           tilemap.tint = TintForLayer[layer.__identifier] || 0xffffff;
+          // todo: apply layer opacity here
 
           return tilemap;
         });
@@ -180,7 +181,7 @@ export class PixiLDTK extends Container {
       this.tilemaps[key] = [];
 
       this.tilemaps[key] = layers;
-      layers.forEach((layer) => this.addChild(layer));
+      layers.reverse().forEach((layer) => this.addChild(layer));
 
       if (key === 'current') {
         if (this.currentLevel) {

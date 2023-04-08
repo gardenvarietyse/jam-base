@@ -54,6 +54,14 @@ export class Tilemap extends Container {
     this.sprites.forEach((s) => (s.tint = t));
   }
 
+  get opacity(): number {
+    return this.sprites[0].alpha;
+  }
+
+  set opacity(t: number) {
+    this.sprites.forEach((s) => (s.alpha = t));
+  }
+
   constructor(options: ITilemapOptions, tileData?: TileData) {
     super();
     this.options = { ...DEFAULT_OPTIONS, ...options };

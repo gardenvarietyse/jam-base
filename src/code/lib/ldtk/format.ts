@@ -103,6 +103,7 @@ export interface ILDTKLevel {
 export interface ILDTKLayer {
   __type: LDTKLayerType;
   uid: number;
+  displayOpacity: number;
 }
 
 export interface ILDTKTileLayer extends ILDTKLayer {

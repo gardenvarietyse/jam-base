@@ -9,17 +9,16 @@ export type CharacterAnimatorComponents = {
 export const createCharacterAnimatorSystem = (
   world: World<GameEntity>
 ): SystemRunFn => {
-  const active = world.with('character_animator', 'sprite');
+  const active = world.with('character_animator', 'sprite', 'body');
 
   return (delta: number) => {
     for (const entity of active) {
-      const { x, sprite, pathing } = entity;
+      const { sprite, body } = entity;
 
-      sprite.animation = pathing ? 'walk' : 'idle';
-
-      if (pathing?.path && pathing.path.length > 0) {
-        const next_node = pathing.path[0];
-        sprite.flip_x = next_node.x * 16 < x - 8;
+      if (body.grounded) {
+        sprite.animation = Math.abs(body.velocity_x) > 0.01 ? 'run' : 'idle';
+      } else {
+        sprite.animation = body.velocity_y < 0 ? 'jump' : 'fall';
       }
     }
   };

@@ -115,6 +115,7 @@ export class Game implements IGame {
         json_asset: Asset.sprite.character.shade,
       },
       body: make_body(16, 16),
+      character_animator: true,
     });
   }
 
