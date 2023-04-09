@@ -14,7 +14,7 @@ export const make_controller = (): ControllerComponent => ({
   jump: false,
 
   move_speed: 64,
-  jump_speed: 128,
+  jump_speed: 128 * 1.5,
 
   enabled: false,
 });

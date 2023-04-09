@@ -14,6 +14,8 @@ export type SpriteComponents = {
     flip_x?: boolean;
     z_index?: number;
 
+    offset_x: number;
+
     shake?: number;
   };
   sprite_state?: {
@@ -44,8 +46,8 @@ export const createSpriteSystem = (
 
   return (delta: number) => {
     for (const entity of added) {
-      const { x, y } = entity;
-      const { asset, json_asset, animation, z_index, flip_x } = entity.sprite;
+      const { x, y, sprite } = entity;
+      const { asset, json_asset, animation, z_index, flip_x } = sprite;
 
       if (asset && json_asset) {
         world.removeComponent(entity, 'sprite');
@@ -61,7 +63,8 @@ export const createSpriteSystem = (
         const instance = new Sprite(texture);
         instance.roundPixels = true;
 
-        instance.position.x = x;
+        const ox = instance.width * sprite.offset_x;
+        instance.position.x = x + ox;
         instance.position.y = y;
         instance.zIndex = z_index ?? instance.zIndex;
 
@@ -73,7 +76,9 @@ export const createSpriteSystem = (
         // animated sprite
         const instance = new Aseprite(json_asset);
 
-        instance.position.x = x;
+        const ox = instance.width * sprite.offset_x;
+
+        instance.position.x = x + ox;
         instance.position.y = y;
 
         instance.scale.x = flip_x ? -1 : 1;
@@ -109,12 +114,13 @@ export const createSpriteSystem = (
       const shake_y = (sprite.shake || 0) * nrandom() * 2;
 
       if (instance) {
-        instance.position.x = x + shake_x;
+        const ox = instance.width * sprite.offset_x;
+        instance.position.x = x + sprite.offset_x + ox + shake_x;
         instance.position.y = y + shake_y;
         instance.scale.x = sprite.flip_x ? -1 : 1;
         instance.zIndex = sprite.z_index ?? instance.zIndex;
       } else if (aseprite_instance) {
-        aseprite_instance.position.x = x + shake_x;
+        aseprite_instance.position.x = x + sprite.offset_x + shake_x;
         aseprite_instance.position.y = y + shake_y;
         aseprite_instance.scale.x = sprite.flip_x ? -1 : 1;
         aseprite_instance.zIndex = sprite.z_index ?? aseprite_instance.zIndex;

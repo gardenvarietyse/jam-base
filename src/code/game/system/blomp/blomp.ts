@@ -7,7 +7,7 @@ import { lerp } from '../../../lib/math';
 
 type CollisionEvent = (body: Body, collision: CollisionData) => void;
 // todo: make gravity configurable
-export const FALL_SPEED = 280;
+export const FALL_SPEED = 200;
 
 type BodyComponent = {
   width: number;

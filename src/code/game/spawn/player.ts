@@ -17,6 +17,7 @@ export const spawnPlayer = (
     y,
     sprite: {
       json_asset: Asset.sprite.character.shade,
+      offset_x: 8,
     },
     body: make_body(16, 16),
     character_animator: true,
