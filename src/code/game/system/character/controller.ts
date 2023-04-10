@@ -38,6 +38,7 @@ export type CharacerControllerComponents = {
 
   controller_state?: {
     airtime: number;
+    can_jump: boolean;
   };
 };
 
@@ -55,6 +56,7 @@ export const createCharacterControllerSystem = (world: World<GameEntity>) => {
     for (const entity of added) {
       world.addComponent(entity, 'controller_state', {
         airtime: 0,
+        can_jump: false,
       });
     }
 
@@ -75,16 +77,24 @@ export const createCharacterControllerSystem = (world: World<GameEntity>) => {
       }
 
       if (
+        controller_state.can_jump &&
         jump &&
         controller_state.airtime <= JUMP_GRACE_TIME &&
         !body.ignore_gravity
       ) {
         body.velocity_y = -jump_speed;
         body.grounded = false;
+        controller_state.can_jump = false;
+      } else if (!jump && body.velocity_y < 0) {
+        body.velocity_y /= 2;
       }
 
       if (body.grounded) {
         controller_state.airtime = 0;
+
+        if (!jump) {
+          controller_state.can_jump = true;
+        }
       } else {
         controller_state.airtime += delta;
       }

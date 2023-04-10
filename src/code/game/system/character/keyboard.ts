@@ -70,7 +70,7 @@ export const createKeyboardControllerSystem = (world: World<GameEntity>) => {
         keyboard_controller_state.instance.held(up),
         keyboard_controller_state.instance.held(down),
 
-        keyboard_controller_state.instance.pressed(jump),
+        keyboard_controller_state.instance.held(jump),
       ];
 
       controller.left = inputs[0];
