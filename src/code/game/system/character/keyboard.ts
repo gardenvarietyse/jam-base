@@ -1,5 +1,5 @@
 import { World } from 'miniplex';
-import { GameEntity } from '../entity';
+import { GameEntity, GameEntityWith } from '../entity';
 import Keyboard from '../../../lib/keyboard';
 
 export const make_keyboard_controller = () => ({
@@ -41,7 +41,9 @@ export const createKeyboardControllerSystem = (world: World<GameEntity>) => {
       .with('keyboard_controller_state')
       .without('keyboard_controller');
 
-    const keyboard_cleanup = (entity: GameEntity) => {
+    const keyboard_cleanup = (
+      entity: GameEntityWith<'keyboard_controller_state'>
+    ) => {
       const { instance } = entity.keyboard_controller_state;
 
       instance?.removeListeners();

@@ -1,5 +1,5 @@
 import { World } from 'miniplex';
-import { GameEntity } from '../entity';
+import { GameEntity, GameEntityWith } from '../entity';
 import { lerp } from '../../../lib/math';
 import { addSystemCleanup } from '..';
 
@@ -43,7 +43,7 @@ export type CharacerControllerComponents = {
 };
 
 export const createCharacterControllerSystem = (world: World<GameEntity>) => {
-  const controller_cleanup = (entity: GameEntity) =>
+  const controller_cleanup = (entity: GameEntityWith<'controller_state'>) =>
     world.removeComponent(entity, 'controller_state');
 
   addSystemCleanup(world, 'controller_state', controller_cleanup);

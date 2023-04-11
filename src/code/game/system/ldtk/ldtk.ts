@@ -6,7 +6,7 @@ import {
   PixiLDTK,
   TilemapKey,
 } from '../../../lib/ldtk/pixiLdtk';
-import { GameEntity } from '../entity';
+import { GameEntity, GameEntityWith } from '../entity';
 import { World } from 'miniplex';
 import { SystemRunFn, addSystemCleanup } from '..';
 import { LDTKLevel } from '../../../lib/ldtk/level';
@@ -43,17 +43,13 @@ export const createLDTKSystem = (
   entity_world: World<GameEntity>,
   stage: Container
 ): SystemRunFn => {
-  const world_cleanup = (entity: GameEntity) => {
-    if (entity.ldtk_world_state) {
-      entity.ldtk_world_state.manager?.removeFromParent();
-      Object.keys(entity.ldtk_world_state.entities_by_level).forEach(
-        (level) => {
-          entity.ldtk_world_state!.entities_by_level[level].forEach((e) =>
-            entity_world.remove(e)
-          );
-        }
+  const world_cleanup = (entity: GameEntityWith<'ldtk_world_state'>) => {
+    entity.ldtk_world_state.manager?.removeFromParent();
+    Object.keys(entity.ldtk_world_state.entities_by_level).forEach((level) => {
+      entity.ldtk_world_state!.entities_by_level[level].forEach((e) =>
+        entity_world.remove(e)
       );
-    }
+    });
 
     entity_world.removeComponent(entity, 'ldtk_world_state');
   };

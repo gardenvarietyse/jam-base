@@ -1,7 +1,7 @@
 import { World } from 'miniplex';
 import { Container, Text } from 'pixi.js';
 import { addSystemCleanup, SystemRunFn } from '..';
-import { GameEntity } from '../entity';
+import { GameEntity, GameEntityWith } from '../entity';
 
 export type LabelComponents = {
   label?: {
@@ -16,10 +16,8 @@ export const createLabelSystem = (
   world: World<GameEntity>,
   stage: Container
 ): SystemRunFn => {
-  const sprite_cleanup = (entity: GameEntity) => {
-    if (entity.label_state?.instance) {
-      entity.label_state?.instance?.removeFromParent();
-    }
+  const sprite_cleanup = (entity: GameEntityWith<'label_state'>) => {
+    entity.label_state.instance?.removeFromParent();
 
     world.removeComponent(entity, 'label_state');
   };

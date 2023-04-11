@@ -1,7 +1,7 @@
 import { NoResponse, ResponseFn } from '../../../lib/blomp/response';
 import { Body, CollisionData, World as BlompWorld } from '../../../lib/blomp';
 import { SystemRunFn, addSystemCleanup } from '..';
-import { GameEntity } from '../entity';
+import { GameEntity, GameEntityWith } from '../entity';
 import { With, World } from 'miniplex';
 import { lerp } from '../../../lib/math';
 
@@ -161,7 +161,7 @@ export const createBlompSystem = (
   entity_world: World<GameEntity>,
   blomp_world: BlompWorld
 ): SystemRunFn => {
-  const body_cleanup = (entity: GameEntity) => {
+  const body_cleanup = (entity: GameEntityWith<'body_state'>) => {
     const { body_state } = entity;
     blomp_world.remove(body_state.instance);
     entity_world.removeComponent(entity, 'body_state');

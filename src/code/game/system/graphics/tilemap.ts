@@ -3,7 +3,7 @@ import { Container } from 'pixi.js';
 import { addSystemCleanup, SystemRunFn } from '..';
 import { TilemapDataSource } from '../../../lib/tilemap/data_source';
 import { Tilemap } from '../../../lib/tilemap/tilemap';
-import { GameEntity } from '../entity';
+import { GameEntity, GameEntityWith } from '../entity';
 
 export type TilemapComponents = {
   tile_source?: TilemapDataSource;
@@ -27,7 +27,7 @@ export const createTilemapSystem = (
   world: World<GameEntity>,
   stage: Container
 ): SystemRunFn => {
-  const tilemap_cleanup = (entity: GameEntity) => {
+  const tilemap_cleanup = (entity: GameEntityWith<'tilemap_state'>) => {
     entity.tilemap_state?.instance?.removeFromParent();
     world.removeComponent(entity, 'tilemap_state');
   };

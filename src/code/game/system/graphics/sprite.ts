@@ -3,7 +3,7 @@ import { Container, MIPMAP_MODES, SCALE_MODES, Sprite, Texture } from 'pixi.js';
 import { addSystemCleanup, SystemRunFn } from '..';
 import { Aseprite, IAsepriteDefinition } from '../../../lib/aseprite';
 import { nrandom } from '../../../lib/math';
-import { GameEntity } from '../entity';
+import { GameEntity, GameEntityWith } from '../entity';
 
 export type SpriteComponents = {
   sprite?: {
@@ -28,12 +28,9 @@ export const createSpriteSystem = (
   world: World<GameEntity>,
   stage: Container
 ): SystemRunFn => {
-  const sprite_cleanup = (entity: GameEntity) => {
-    if (entity.sprite_state?.instance) {
-      entity.sprite_state?.instance?.removeFromParent();
-    } else if (entity.sprite_state?.aseprite_instance) {
-      entity.sprite_state?.aseprite_instance?.removeFromParent();
-    }
+  const sprite_cleanup = (entity: GameEntityWith<'sprite_state'>) => {
+    entity.sprite_state.instance?.removeFromParent();
+    entity.sprite_state.aseprite_instance?.removeFromParent();
 
     world.removeComponent(entity, 'sprite_state');
   };
