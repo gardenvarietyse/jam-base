@@ -21,6 +21,8 @@ import { World as BlompWorld } from '../lib/blomp';
 import { spawnEntity } from './spawn';
 import { createCharacterControllerSystem } from './system/character/controller';
 import { createKeyboardControllerSystem } from './system/character/keyboard';
+import { LDTKLevel } from '../lib/ldtk/level';
+import { LDTKDir } from '../lib/ldtk/format';
 
 export class Game implements IGame {
   private pixi_app: Application;
@@ -33,7 +35,8 @@ export class Game implements IGame {
   private blomp_world: BlompWorld;
   private debugLabel: GameEntity;
 
-  private player: GameEntity;
+  private player?: GameEntity;
+  private current_level?: LDTKLevel;
 
   create_systems(
     pixi_app: Application,
@@ -79,6 +82,7 @@ export class Game implements IGame {
       x: 0,
       y: 0,
       grid_manager: {
+        // todo: base this shit on the current level I guess
         width: SETTINGS.MAP_WIDTH,
         height: SETTINGS.MAP_HEIGHT,
       },
@@ -92,6 +96,8 @@ export class Game implements IGame {
         stage: this.pixi_app.stage,
         level: 'Level_0',
         on_loaded: (level) => {
+          this.current_level = level;
+
           // @ts-ignore
           this.pixi_app.renderer.background.color = level.bgColor;
 
@@ -104,6 +110,10 @@ export class Game implements IGame {
 
             if (!entity) {
               return;
+            }
+
+            if (ei.__identifier === 'Player') {
+              this.player = entity;
             }
 
             // todo: persist player somehow
@@ -152,9 +162,34 @@ export class Game implements IGame {
       return 0;
     });
 
+    if (this.player) {
+      const cx = this.player.x + this.player.body.width / 2;
+      const cy = this.player.y + this.player.body.height / 2;
+
+      if (cx < this.current_level?.worldX) {
+        this.switch_level('w');
+      } else if (cx > this.current_level?.worldX + this.current_level?.pxWid) {
+        this.switch_level('e');
+      } else if (cy < this.current_level?.worldY) {
+        this.switch_level('n');
+      } else if (cy > this.current_level?.worldY + this.current_level?.pxHei) {
+        this.switch_level('s');
+      }
+    }
+
     if (this.debugLabel?.label) {
       this.debugLabel.label.text = `${this.world.entities.length} entities`;
     }
   }
+
+  switch_level(dir: LDTKDir) {
+    if (!this.current_level) {
+      return;
+    }
+
+    this.game_world.ldtk_world.change_neighbour = dir;
+    this.current_level = undefined;
+  }
 }
+
 export { SETTINGS };
