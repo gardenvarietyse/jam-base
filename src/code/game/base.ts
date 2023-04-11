@@ -45,6 +45,7 @@ export class Base {
         this.run_systems(delta);
         this.game.update(delta);
       }
+
       window.requestAnimationFrame(tick);
     };
 

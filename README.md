@@ -16,8 +16,8 @@ html5 game framework + platformer sample written in typescript. uses parcel, pix
 
 - ldtk world in src/asset/world/world.json
   - use 'Block' enum for map collisions
-  - 'Animation' enum for animated tiles
-  - layers named `Background`, `Base`, `Foreground` have hard coded z-indexes and tints
+  - `Animation` enum for animated tiles
+  - tile layers named `Background`, `Base`, `Foreground` have hard coded z-indexes and tints
 - required character animations (with `character_animator`):
   - `idle`, `run`, `jump`, `fall`
 - ??
