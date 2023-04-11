@@ -122,6 +122,10 @@ export class Game implements IGame {
           );
 
           entities?.entityInstances.forEach((ei) => {
+            if (ei.__identifier === 'Player' && this.player) {
+              return;
+            }
+
             const entity = spawnEntity(entity_world, ei);
 
             if (!entity) {
@@ -130,14 +134,13 @@ export class Game implements IGame {
 
             if (ei.__identifier === 'Player') {
               this.player = entity;
+            } else {
+              entity_world.addComponent(entity, 'ldtk_entity', {
+                iid: ei.iid,
+                identifier: ei.__identifier,
+                level: level.identifier,
+              });
             }
-
-            // todo: persist player somehow
-            entity_world.addComponent(entity, 'ldtk_entity', {
-              iid: ei.iid,
-              identifier: ei.__identifier,
-              level: level.identifier,
-            });
           });
         },
       },

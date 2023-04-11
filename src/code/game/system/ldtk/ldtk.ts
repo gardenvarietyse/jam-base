@@ -46,7 +46,7 @@ export const createLDTKSystem = (
   const world_cleanup = (entity: GameEntityWith<'ldtk_world_state'>) => {
     entity.ldtk_world_state.manager?.removeFromParent();
     Object.keys(entity.ldtk_world_state.entities_by_level).forEach((level) => {
-      entity.ldtk_world_state!.entities_by_level[level].forEach((e) =>
+      entity.ldtk_world_state.entities_by_level[level].forEach((e) =>
         entity_world.remove(e)
       );
     });
