@@ -2,6 +2,8 @@
 
 html5 game framework + platformer sample written in typescript. uses parcel, pixijs, miniplex.
 
+![screenshot of the sample game](./screenshot.png)
+
 ### features
 
 - entity component system architecture courtesy of [miniplex](https://github.com/hmans/miniplex)
