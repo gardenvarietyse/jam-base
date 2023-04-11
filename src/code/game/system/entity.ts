@@ -11,6 +11,8 @@ import { LDTKComponents } from './ldtk/ldtk';
 import { BlompComponents } from './blomp/blomp';
 import { CharacerControllerComponents } from './character/controller';
 import { KeyboardControllerComponents } from './character/keyboard';
+import { CameraComponents } from './graphics/camera';
+import { With } from 'miniplex';
 
 export type GameEntity = {
   name?: string;
@@ -28,6 +30,7 @@ export type GameEntity = {
   // graphics
   LabelComponents &
   TilemapComponents &
+  CameraComponents &
   // ldtk
   LDTKComponents &
   // input
@@ -35,3 +38,5 @@ export type GameEntity = {
   KeyboardControllerComponents &
   // general game systems
   GridComponents;
+
+export type GameEntityWith<T extends keyof GameEntity> = With<GameEntity, T>;

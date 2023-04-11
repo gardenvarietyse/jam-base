@@ -1,7 +1,7 @@
 import { World } from 'miniplex';
 import Keyboard from '../../../lib/keyboard';
 import { SystemRunFn, addSystemCleanup } from '..';
-import { GameEntity } from '../entity';
+import { GameEntity, GameEntityWith } from '../entity';
 
 export type KeyboardComponents = {
   keyboard?: {
@@ -13,7 +13,7 @@ export type KeyboardComponents = {
 };
 
 export const createKeyboardSystem = (world: World<GameEntity>): SystemRunFn => {
-  const cleanup = (entity: GameEntity) => {
+  const cleanup = (entity: GameEntityWith<'keyboard_instance'>) => {
     entity.keyboard_instance?.removeListeners();
     world.removeComponent(entity, 'keyboard_instance');
   };

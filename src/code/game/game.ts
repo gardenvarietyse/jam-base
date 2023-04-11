@@ -23,6 +23,7 @@ import { createCharacterControllerSystem } from './system/character/controller';
 import { createKeyboardControllerSystem } from './system/character/keyboard';
 import { LDTKLevel } from '../lib/ldtk/level';
 import { LDTKDir } from '../lib/ldtk/format';
+import { createCameraSystem } from './system/graphics/camera';
 
 export class Game implements IGame {
   private pixi_app: Application;
@@ -35,6 +36,7 @@ export class Game implements IGame {
   private blomp_world: BlompWorld;
   private debugLabel: GameEntity;
 
+  private camera_entity?: GameEntity;
   private player?: GameEntity;
   private current_level?: LDTKLevel;
 
@@ -54,6 +56,7 @@ export class Game implements IGame {
       createLabelSystem(entity_world, pixi_app.stage),
       createTilemapSystem(entity_world, pixi_app.stage),
       createLDTKSystem(entity_world, pixi_app.stage),
+      createCameraSystem(entity_world, pixi_app.stage),
       // characters
       createHealthSystem(entity_world),
       createCharacterAnimatorSystem(entity_world),
@@ -69,6 +72,17 @@ export class Game implements IGame {
   }
 
   startup(entity_world: World<GameEntity>) {
+    this.camera_entity = entity_world.add({
+      x: 0,
+      y: 0,
+      camera: {
+        x: 0,
+        y: 0,
+        pan_speed: 1024,
+        container: this.pixi_app.stage,
+      },
+    });
+
     entity_world.add({
       x: 0,
       y: 0,
@@ -97,6 +111,8 @@ export class Game implements IGame {
         level: 'Level_0',
         on_loaded: (level) => {
           this.current_level = level;
+          this.camera_entity.camera.x = level.worldX;
+          this.camera_entity.camera.y = level.worldY;
 
           // @ts-ignore
           this.pixi_app.renderer.background.color = level.bgColor;
