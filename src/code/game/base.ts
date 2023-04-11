@@ -3,8 +3,6 @@ import { Application } from 'pixi.js';
 import { GameEntity } from './system/entity';
 import { Game } from './game';
 import { initSystems, SystemRunFn } from './system';
-import { Asset } from '../../asset';
-import { Aseprite } from '../lib/aseprite';
 
 export interface IGame {
   create_systems(

@@ -96,7 +96,7 @@
 		},
 		{
 			"__type": "Tiles",
-			"identifier": "Tiles",
+			"identifier": "Base",
 			"type": "Tiles",
 			"uid": 4,
 			"doc": null,
@@ -394,7 +394,7 @@
 					"entityInstances": []
 				},
 				{
-					"__identifier": "Tiles",
+					"__identifier": "Base",
 					"__type": "Tiles",
 					"__cWid": 32,
 					"__cHei": 32,
@@ -861,7 +861,7 @@
 					"entityInstances": []
 				},
 				{
-					"__identifier": "Tiles",
+					"__identifier": "Base",
 					"__type": "Tiles",
 					"__cWid": 32,
 					"__cHei": 32,
