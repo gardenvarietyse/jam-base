@@ -148,6 +148,20 @@ export class Game implements IGame {
     // @ts-ignore
     this.pixi_app.stage.onpointertap = (e) => {
       const { globalX, globalY } = e;
+
+      const crab = entity_world.entities.find(
+        (e) => e.ldtk_entity?.identifier === 'Crab'
+      );
+      console.log(crab);
+
+      if (crab) {
+        entity_world.addComponent(crab, 'pathing', {
+          goal: {
+            x: Math.floor(globalX),
+            y: Math.floor(globalY),
+          },
+        });
+      }
     };
 
     this.debugLabel = entity_world.add({
