@@ -2,6 +2,7 @@ import { World } from 'miniplex';
 import { ILDTKEntityInstance } from '../../lib/ldtk/format';
 import { spawnPlayer } from './player';
 import { GameEntity } from '../system/entity';
+import { spawnCrab } from './crab';
 
 export type EntitySpawnFn = (
   world: World<GameEntity>,
@@ -10,6 +11,7 @@ export type EntitySpawnFn = (
 
 const SPAWNERS: { [key: string]: EntitySpawnFn } = {
   Player: spawnPlayer,
+  Crab: spawnCrab,
 };
 
 export const spawnEntity = (
