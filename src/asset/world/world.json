@@ -300,7 +300,7 @@
 						},
 						{
 							"__identifier": "Crab",
-							"__grid": [16,24],
+							"__grid": [16,17],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -309,7 +309,7 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 10,
-							"px": [256,384],
+							"px": [256,272],
 							"fieldInstances": []
 						}
 					]

@@ -24,6 +24,12 @@ export const spawnCrab = (
     body: make_body(CRAB_WIDTH, CRAB_HEIGHT),
     character_animator: true,
     controller: make_controller(),
+    pathing: {
+      goal: {
+        x: 10 * 16,
+        y: 25 * 16,
+      },
+    },
   });
 
   return entity;

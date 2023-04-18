@@ -20,6 +20,7 @@ html5 game framework + platformer sample written in typescript. uses parcel, pix
   - use 'Block' enum for map collisions
   - `Animation` enum for animated tiles
   - tile layers named `Background`, `Base`, `Foreground` have hard coded z-indexes and tints
+  - `Background` layer doesn't generate collisions
 - required character animations (with `character_animator`):
   - `idle`, `run`, `jump`, `fall`
 - canvas is scaled to window height (`98vh` in css)

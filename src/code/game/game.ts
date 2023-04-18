@@ -94,11 +94,7 @@ export class Game implements IGame {
     this.game_entity = entity_world.add({
       x: 0,
       y: 0,
-      grid_manager: {
-        // todo: base this shit on the current level I guess
-        width: SETTINGS.MAP_WIDTH,
-        height: SETTINGS.MAP_HEIGHT,
-      },
+      grid_manager: {},
     });
 
     this.game_world = entity_world.add({
@@ -115,6 +111,8 @@ export class Game implements IGame {
 
           // @ts-ignore
           this.pixi_app.renderer.background.color = level.bgColor;
+
+          this.game_entity.grid_manager.update_for_level = level;
 
           const entities = level.entityLayers.find(
             (el) => el.__identifier === 'Entities'

@@ -7,10 +7,10 @@ export class PathScorer implements IAStarScorer<GridNode> {
   }
 
   calculate_g(node: GridNode, parent: GridNode): number {
-    return 1;
+    return node.y === parent.y ? 1 : 10;
   }
 
   is_walkable(node: GridNode): boolean {
-    return node.walkable && !node.occupant;
+    return node.walkable;
   }
 }
