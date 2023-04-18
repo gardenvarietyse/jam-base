@@ -56,9 +56,8 @@ export const createGridManagerSystem = (
 
       const path_nodes = createTilemapPathNodes(grid_manager.update_for_level);
       grid_manager.path_grid = path_nodes;
-
       grid_manager.update_for_level = undefined;
-      console.log(grid_manager.path_grid);
+
       return;
     }
 
@@ -96,7 +95,6 @@ export const createGridManagerSystem = (
       );
 
       if (!end) {
-        console.log(end_x, end_y);
         console.warn('failed to find goal end node');
         entity.pathing.goal = undefined;
 
@@ -106,7 +104,6 @@ export const createGridManagerSystem = (
       const path = grid_manager.astar?.get_path(start, end, true);
       if (path) {
         entity.pathing.path = path;
-        console.log(path);
       } else {
         console.warn('failed to find goal path');
         entity.pathing.goal = undefined;

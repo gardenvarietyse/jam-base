@@ -5,7 +5,7 @@ import { Asset } from '../../../asset';
 import { make_body } from '../system/blomp/blomp';
 import { make_controller } from '../system/character/controller';
 
-export const CRAB_WIDTH = 16;
+export const CRAB_WIDTH = 12;
 export const CRAB_HEIGHT = 16;
 
 export const spawnCrab = (
@@ -24,12 +24,6 @@ export const spawnCrab = (
     body: make_body(CRAB_WIDTH, CRAB_HEIGHT),
     character_animator: true,
     controller: make_controller(),
-    pathing: {
-      goal: {
-        x: 10 * 16,
-        y: 25 * 16,
-      },
-    },
   });
 
   return entity;
