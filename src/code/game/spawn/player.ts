@@ -22,7 +22,9 @@ export const spawnPlayer = (
       json_asset: Asset.sprite.character.shade,
       offset_x: 8,
     },
-    body: make_body(PLAYER_WIDTH, PLAYER_HEIGHT),
+    body: make_body(PLAYER_WIDTH, PLAYER_HEIGHT, {
+      groups: ['player'],
+    }),
     character_animator: true,
     controller: make_controller(),
     keyboard_controller: make_keyboard_controller(),

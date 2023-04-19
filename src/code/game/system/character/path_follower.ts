@@ -43,7 +43,7 @@ export const createPathFollowerSystem = (
         }
 
         continue;
-      } else if (pathing.node_time > 5) {
+      } else if (pathing.node_time > 2) {
         finish_pathing(world, entity);
         continue;
       }
@@ -72,7 +72,7 @@ export const createPathFollowerSystem = (
         continue;
       }
 
-      if (Math.abs(diff_x) > 2) {
+      if (Math.abs(diff_x) >= 1) {
         if (diff_x < 0) {
           controller.left = true;
           controller.right = false;

@@ -21,7 +21,9 @@ export const spawnCrab = (
       json_asset: Asset.sprite.character.crab,
       offset_x: 8,
     },
-    body: make_body(CRAB_WIDTH, CRAB_HEIGHT),
+    body: make_body(CRAB_WIDTH, CRAB_HEIGHT, {
+      ignore_groups: ['player'],
+    }),
     character_animator: true,
     controller: make_controller(),
   });
