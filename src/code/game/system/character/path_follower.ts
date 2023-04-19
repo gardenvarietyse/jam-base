@@ -7,6 +7,7 @@ export type PathFollowerComponents = {
   pathing?: {
     goal?: { x: number; y: number };
     path?: GridNode[];
+    on_path_found?: (path: GridNode[]) => void;
     node_time?: number;
   };
 };
@@ -24,62 +25,72 @@ const finish_pathing = (
 export const createPathFollowerSystem = (
   world: World<GameEntity>
 ): SystemRunFn => {
-  const active = world.with('controller', 'pathing');
+  const active = world.with(
+    'body',
+    'controller_state',
+    'controller',
+    'pathing'
+  );
 
   return (delta: number) => {
     for (const entity of active) {
       const { x, y } = entity;
-      const { controller, pathing } = entity;
+      const { body, controller_state, controller, pathing } = entity;
 
       if (!pathing.path || pathing.path.length === 0) {
         if (!pathing.goal) {
           finish_pathing(world, entity);
         }
 
-        return;
-      } else if (pathing.node_time > 1) {
-        // todo: hardcoded value above
+        continue;
+      } else if (pathing.node_time > 5) {
         finish_pathing(world, entity);
-        return;
+        continue;
       }
 
-      const [nextNode, ...remainingPath] = pathing.path;
+      const [next_node, ...remaining_path] = pathing.path;
 
       pathing.node_time = (pathing.node_time ?? 0) + delta;
 
-      const next_x = nextNode.x;
-      const next_y = nextNode.y;
+      const next_x = next_node.x;
+      const next_y = next_node.y;
 
-      const dir_x = next_x - x;
-      const dir_y = next_y - y;
+      const diff_x = next_x - x;
+      const diff_y = next_y - y;
 
-      if (Math.abs(dir_x) < 2 && Math.abs(dir_y) < 2) {
-        pathing.path = remainingPath;
+      if (Math.abs(diff_x) < 1 && Math.abs(diff_y) < 2) {
+        pathing.path = remaining_path;
         pathing.node_time = 0;
         controller.left = false;
         controller.right = false;
+        controller.jump = false;
 
-        if (remainingPath.length === 0) {
+        if (remaining_path.length === 0) {
           world.removeComponent(entity, 'pathing');
         }
-      } else {
-        // dumb, redo this
-        if (dir_x < 0) {
+
+        continue;
+      }
+
+      if (Math.abs(diff_x) > 2) {
+        if (diff_x < 0) {
           controller.left = true;
           controller.right = false;
-        } else if (dir_x > 0) {
+        } else if (diff_x > 0) {
           controller.left = false;
           controller.right = true;
-        } else {
-          controller.left = false;
-          controller.right = false;
         }
+      } else {
+        controller.left = false;
+        controller.right = false;
+      }
 
-        if (Math.abs(dir_x) < 2 && dir_y > 0) {
-          controller.left = controller.right = false;
+      if (diff_y < 0) {
+        controller.jump = true;
+
+        if (!controller_state.can_jump && body.grounded) {
+          controller.jump = false;
         }
-
-        controller.jump = dir_y < 0;
       }
     }
   };

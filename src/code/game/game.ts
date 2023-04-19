@@ -23,6 +23,7 @@ import { createKeyboardControllerSystem } from './system/character/keyboard';
 import { LDTKLevel } from '../lib/ldtk/level';
 import { LDTKDir } from '../lib/ldtk/format';
 import { createCameraSystem } from './system/graphics/camera';
+import { Asset } from '../../asset';
 
 export class Game implements IGame {
   private pixi_app: Application;
@@ -152,13 +153,25 @@ export class Game implements IGame {
       const crab = entity_world.entities.find(
         (e) => e.ldtk_entity?.identifier === 'Crab'
       );
-      console.log(crab);
 
       if (crab) {
         entity_world.addComponent(crab, 'pathing', {
           goal: {
             x: Math.floor(globalX),
-            y: Math.floor(globalY),
+            y: Math.floor(globalY) - 16,
+          },
+          on_path_found: (path) => {
+            path.forEach((n, i) =>
+              entity_world.add({
+                x: n.x,
+                y: n.y,
+                sprite: {
+                  asset: Asset.sprite.util.path,
+                  offset_x: 0,
+                },
+                ttl: 0.5 + 0.5 * i,
+              })
+            );
           },
         });
       }
@@ -204,6 +217,19 @@ export class Game implements IGame {
         this.switch_level('n');
       } else if (cy > this.current_level?.worldY + this.current_level?.pxHei) {
         this.switch_level('s');
+      }
+
+      const crab = this.world.entities.find(
+        (e) => e.ldtk_entity?.identifier === 'Crab'
+      );
+
+      if (crab && !crab.pathing) {
+        this.world.addComponent(crab, 'pathing', {
+          goal: {
+            x: Math.floor(this.player.x),
+            y: Math.floor(this.player.y),
+          },
+        });
       }
     }
 

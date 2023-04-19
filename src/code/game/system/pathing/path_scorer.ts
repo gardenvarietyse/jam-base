@@ -3,14 +3,24 @@ import { GridNode } from './grid_node';
 
 export class PathScorer implements IAStarScorer<GridNode> {
   estimate_cost(start: GridNode, end: GridNode): number {
-    return Math.abs(start.x - end.x) + Math.abs(start.y - end.y);
+    const base = Math.abs(start.x - end.x) + Math.abs(start.y - end.y);
+
+    return base;
   }
 
   calculate_g(node: GridNode, parent: GridNode): number {
-    return node.y === parent.y ? 1 : 10;
+    if (node.in_air) {
+      return 40;
+    }
+
+    if (node.x === parent.x && node.y > parent.y) {
+      return 1;
+    }
+
+    return 20;
   }
 
   is_walkable(node: GridNode): boolean {
-    return node.walkable;
+    return !node.block;
   }
 }

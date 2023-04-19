@@ -51,7 +51,7 @@ export const createGridManagerSystem = (
 
     if (grid_manager.update_for_level) {
       for (const entity of pathing_entities) {
-        // world.removeComponent(entity, 'pathing');
+        world.removeComponent(entity, 'pathing');
       }
 
       const path_nodes = createTilemapPathNodes(grid_manager.update_for_level);
@@ -65,8 +65,6 @@ export const createGridManagerSystem = (
       if (!entity.pathing.goal || !!entity.pathing.path) {
         continue;
       }
-
-      // todo: calculate goal based on current level position and stuff
 
       const { x, y } = entity;
       const { x: ex, y: ey } = entity.pathing.goal!;
@@ -103,6 +101,7 @@ export const createGridManagerSystem = (
 
       const path = grid_manager.astar?.get_path(start, end, true);
       if (path) {
+        entity.pathing.on_path_found?.(path);
         entity.pathing.path = path;
       } else {
         console.warn('failed to find goal path');

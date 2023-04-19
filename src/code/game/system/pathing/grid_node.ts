@@ -1,10 +1,10 @@
 import { PathNode } from '../../../lib/pathing/path_node';
-import { GameEntity } from '../entity';
 
 export class GridNode extends PathNode {
   x: number;
   y: number;
-  walkable = true;
+  block = false;
+  in_air = false;
 
   constructor(x: number, y: number) {
     super();

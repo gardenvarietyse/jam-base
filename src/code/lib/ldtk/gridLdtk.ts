@@ -55,7 +55,7 @@ export const createTilemapPathNodes = (level: LDTKLevel) => {
     });
   });
 
-  // set up walkability
+  // set up node states
   level.tileLayers.forEach((layer) => {
     if (layer.__identifier === 'Background') {
       return;
@@ -78,11 +78,18 @@ export const createTilemapPathNodes = (level: LDTKLevel) => {
           return;
         }
 
-        grid_node.walkable = false;
-        // x + level.worldX
-        // y + level.worldY
-        // layer.tileset.tileGridSize
+        grid_node.block = true;
       });
+  });
+
+  grid_nodes.forEach((gn) => {
+    const neighbour_down = grid_nodes.find(
+      (n) => n.x === gn.x && n.y === gn.y + grid_size
+    );
+
+    if (!neighbour_down?.block) {
+      gn.in_air = true;
+    }
   });
 
   return grid_nodes;
